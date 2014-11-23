@@ -124,15 +124,15 @@ func (_mr *_MockInterfaceRecorder) GetToken(arg0 interface{}) *gomock.Call {
 	return _mr.mock.ctrl.RecordCall(_mr.mock, "GetToken", arg0)
 }
 
-func (_m *MockInterface) SendResetPasswordMail(_param0 *mailba.Mail, _param1 time.Duration) (*Token, error) {
-	ret := _m.ctrl.Call(_m, "SendResetPasswordMail", _param0, _param1)
+func (_m *MockInterface) SendResetPasswordMail(_param0 string, _param1 *mailba.Mail, _param2 time.Duration) (*Token, error) {
+	ret := _m.ctrl.Call(_m, "SendResetPasswordMail", _param0, _param1, _param2)
 	ret0, _ := ret[0].(*Token)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
-func (_mr *_MockInterfaceRecorder) SendResetPasswordMail(arg0, arg1 interface{}) *gomock.Call {
-	return _mr.mock.ctrl.RecordCall(_mr.mock, "SendResetPasswordMail", arg0, arg1)
+func (_mr *_MockInterfaceRecorder) SendResetPasswordMail(arg0, arg1, arg2 interface{}) *gomock.Call {
+	return _mr.mock.ctrl.RecordCall(_mr.mock, "SendResetPasswordMail", arg0, arg1, arg2)
 }
 
 func (_m *MockInterface) UseToken(_param0 string) error {

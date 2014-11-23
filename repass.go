@@ -1,13 +1,15 @@
 package repass
 
 import (
+	"crypto/md5"
+	"fmt"
 	"github.com/plimble/errs"
 	"github.com/plimble/mailba"
 	"time"
 )
 
 type Interface interface {
-	SendResetPasswordMail(mail *mailba.Mail, d time.Duration) (*Token, error)
+	SendResetPasswordMail(userID string, mail *mailba.Mail, d time.Duration) (*Token, error)
 	GetToken(tokenID string) (*Token, error)
 	UseToken(tokenID string) error
 }
@@ -21,7 +23,13 @@ func NewService(sender mailba.Sender, store Store) *service {
 	return &service{sender, store}
 }
 
-func (s *service) SendResetPasswordMail(mail *mailba.Mail, d time.Duration) (*Token, error) {
+func encode(email string) string {
+	hash := md5.New()
+	hash.Write([]byte(time.Now().UTC().Format(time.RFC3339) + "," + email))
+	return fmt.Sprintf("%x", hash.Sum(nil))
+}
+
+func (s *service) SendResetPasswordMail(userID string, mail *mailba.Mail, d time.Duration) (*Token, error) {
 	if len(mail.To) == 0 {
 		return nil, errs.NewErrors("To is required")
 	}
@@ -32,6 +40,7 @@ func (s *service) SendResetPasswordMail(mail *mailba.Mail, d time.Duration) (*To
 
 	token := Token{
 		ID:     encode(mail.To[0].Email),
+		UserID: userID,
 		Email:  mail.To[0].Email,
 		Expire: time.Now().Add(d),
 	}

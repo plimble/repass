@@ -8,6 +8,11 @@ import (
 	"time"
 )
 
+func TestEncode(t *testing.T) {
+	tokenID := encode("jack@jack.com")
+	assert.NotEmpty(t, tokenID)
+}
+
 func TestRePass(t *testing.T) {
 	assert := assert.New(t)
 
@@ -26,7 +31,7 @@ func TestRePass(t *testing.T) {
 	store.EXPECT().Create(gomock.Any()).Return(nil)
 	sender.EXPECT().Send(gomock.Any(), gomock.Any())
 
-	token, err := s.SendResetPasswordMail(mail, time.Hour*24*10)
+	token, err := s.SendResetPasswordMail("1", mail, time.Hour*24*10)
 
 	assert.NoError(err)
 	assert.NotNil(token)
