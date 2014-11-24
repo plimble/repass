@@ -65,7 +65,7 @@ func (s *service) UseToken(tokenID string) error {
 	}
 
 	token.Used = true
-	return s.store.Update(tokenID, token)
+	return s.store.Update(tokenID, map[string]interface{}{"used": true})
 }
 
 func (s *service) GetToken(tokenID string) (*Token, error) {
