@@ -28,7 +28,7 @@ func TestRePass(t *testing.T) {
 	mail.SetSubject("Reset password *|name|*")
 	mail.SetContent("<h1>*|name|*</h1><p>Token: *|token|*</p>")
 
-	store.EXPECT().Create(gomock.Any()).Return(nil)
+	store.EXPECT().Insert(gomock.Any()).Return(nil)
 	sender.EXPECT().Send(gomock.Any(), gomock.Any())
 
 	token, err := s.SendResetPasswordMail("1", mail, time.Hour*24*10)

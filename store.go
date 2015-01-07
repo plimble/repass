@@ -1,10 +1,7 @@
 package repass
 
-import (
-	"github.com/plimble/crud"
-)
-
 type Store interface {
-	crud.CRUD
+	Insert(v interface{}) error
+	Update(id string, v map[string]interface{}) error
 	Get(tokenID string) (*Token, error)
 }

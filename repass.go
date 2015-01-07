@@ -8,6 +8,8 @@ import (
 	"time"
 )
 
+//go:generate mockgen -destination=mock.go --self_package=github.com/plimble/repass -package=repass github.com/plimble/repass Store,Interface
+
 type Interface interface {
 	SendResetPasswordMail(userID string, mail *mailba.Mail, d time.Duration) (*Token, error)
 	GetToken(tokenID string) (*Token, error)
@@ -45,7 +47,7 @@ func (s *service) SendResetPasswordMail(userID string, mail *mailba.Mail, d time
 		Expire: time.Now().Add(d),
 	}
 
-	if err := s.store.Create(token); err != nil {
+	if err := s.store.Insert(token); err != nil {
 		return nil, err
 	}
 
