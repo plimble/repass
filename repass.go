@@ -1,14 +1,14 @@
 package repass
 
 import (
-	"github.com/plimble/errs"
 	"github.com/plimble/mailba"
 	"github.com/plimble/moment"
 	"github.com/plimble/unik"
+	"github.com/plimble/utils/errors2"
 	"time"
 )
 
-//go:generate mockgen -destination=mock_repass/mock_repass.go github.com/plimble/repass Service
+//go:generate mockgen -destination=mock_repass/mock_service.go github.com/plimble/repass Service
 
 type Service interface {
 	SendResetPasswordMail(userID string, mail *mailba.Mail, d time.Duration) (*Token, error)
@@ -33,11 +33,11 @@ func NewService(config *Config) *RepassService {
 
 func (s *RepassService) SendResetPasswordMail(userID string, mail *mailba.Mail, d time.Duration) (*Token, error) {
 	if len(mail.To) == 0 {
-		return nil, errs.NewErrors("To is required")
+		return nil, errors2.NewBadReq("To is required")
 	}
 
 	if len(mail.To) > 1 {
-		return nil, errs.NewErrors("To should only one")
+		return nil, errors2.NewBadReq("To should only one")
 	}
 
 	token := &Token{
