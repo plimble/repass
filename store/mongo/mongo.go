@@ -1,4 +1,4 @@
-package repass
+package mongo
 
 import (
 	"github.com/plimble/crud/crudmongo"
