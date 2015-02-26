@@ -1,7 +1,7 @@
 package mongo
 
 import (
-	"github.com/plimble/crud/crudmongo"
+	"github.com/plimble/crud/mongo"
 	"gopkg.in/mgo.v2"
 )
 
