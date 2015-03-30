@@ -53,7 +53,7 @@ func (s *RepassService) SendResetPasswordMail(userID string, mail *mailba.Mail, 
 
 	mail.AddGlobalVar("token", token.ID)
 
-	return token, s.Sender.Send(mail, nil)
+	return token, s.Sender.Send(mail)
 }
 
 func (s *RepassService) UseToken(tokenID string) error {

@@ -4,10 +4,10 @@
 package mock_repass
 
 import (
-	mailba "github.com/plimble/mailba"
 	time "time"
 	gomock "code.google.com/p/gomock/gomock"
 	repass "github.com/plimble/repass"
+	mailba "github.com/plimble/mailba"
 )
 
 // Mock of Service interface

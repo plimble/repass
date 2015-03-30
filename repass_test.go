@@ -18,8 +18,8 @@ func TestRePass(t *testing.T) {
 	//mock
 	ctrl := gomock.NewController(t)
 	store := NewMockStore(ctrl)
-	sender := mock_mailba.NewMockSender(ctrl)
-	unik := mock_unik.NewMockGenerator(ctrl)
+	sender := mock_mailba.NewMockSender()
+	unik := mock_unik.NewMockGenerator()
 	moment := mock_moment.NewMockTime(ctrl)
 
 	s := NewService(&Config{
@@ -48,10 +48,9 @@ func TestRePass(t *testing.T) {
 
 	moment.EXPECT().Now().Return(now)
 	moment.EXPECT().Add(now, duration).Return(expire)
-	unik.EXPECT().Generate().Return("1111")
+	unik.On("Generate").Return("1111")
 	store.EXPECT().Insert(token).Return(nil)
-	sender.EXPECT().Send(mail, nil).Return(nil)
-
+	sender.On("Send", mail).Return(nil)
 	token, err := s.SendResetPasswordMail("1", mail, duration)
 
 	assert.NoError(err)
